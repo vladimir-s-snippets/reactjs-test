@@ -1,22 +1,36 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-function MyComponent(props) {
-    return <h2>Test {props.data}</h2>;
-}
+class Clock extends React.Component {
+    constructor(props) {
+        super(props);
+        this.state = {
+            date: new Date()
+        };
+    }
 
-function App(props) {
-    return (
-        <div>
-            <MyComponent data="111" />
-            <MyComponent data="555" />
-            <MyComponent data="333" />
-            <div>{props.vvv}</div>
-        </div>
-    );
+    componentDidMount() {
+        this.timerID = setInterval(() => this.tick(), 1000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.timerID);
+    }
+
+    tick() {
+        this.setState({
+            date: new Date()
+        });
+    }
+
+    render() {
+        return (
+            <div>Сейчас {this.state.date.toLocaleTimeString()}</div>
+        );
+    }
 }
 
 ReactDOM.render(
-    <App vvv="qqq" />,
+    <Clock />,
     document.getElementById('root')
 );
